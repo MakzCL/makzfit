@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Makz Fit Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== Base ===== */
+    :root {
+      --glass-bg: rgba(0, 0, 0, 0.4);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      --radius: 16px;
+    }
+    html, body { height: 100%; }
+    body { 
+      margin: 0; 
+      font-family: 'Cabinet Grotesk', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji"; 
+      color: #fff; 
+      background: url('https://i.ibb.co/XffVNf0M/vivid-blurred-colorful-background.jpg') no-repeat center center fixed; 
+      background-size: cover;
+      text-align: center;
+    }
+
+    /* ===== Utilities ===== */
+    .glass {
+      position: relative;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(14px) saturate(140%);
+      -webkit-backdrop-filter: blur(14px) saturate(140%);
+      border-radius: var(--radius);
+      box-shadow: var(--glass-shadow);
+      overflow: hidden;
+    }
+
+    /* ===== Layout ===== */
+    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+
+    /* Header */
+    .hero { padding: 18px; margin-bottom: 18px; }
+    .hero img { max-width: 220px; margin-bottom: 16px; }
+    .hero h1 { margin: 0 0 6px 0; font-size: 28px; letter-spacing: -0.02em; color: #fff; }
+    .hero p { margin: 0; opacity: .9; color: #fff; }
+
+    /* Tabs */
+    .tabs { display: flex; justify-content: center; gap: 10px; margin: 16px 0 20px; flex-wrap: wrap; }
+    .tabs button {
+      padding: 10px 14px; border-radius: 999px; cursor: pointer; border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px) saturate(140%);
+      -webkit-backdrop-filter: blur(10px) saturate(140%);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      color: #fff;
+      transition: transform .12s ease, box-shadow .12s ease, background .2s ease;
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 600;
+    }
+    .tabs button:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.6); }
+    .tabs button.active { background: rgba(255,255,255,0.2); }
+
+    /* Cards */
+    .card { padding: 16px; margin-bottom: 20px; color: #fff; text-align: left; }
+
+    /* Controls */
+    .row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .seg { display: inline-flex; border-radius: 999px; overflow: hidden; }
+    .seg button {
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px) saturate(140%);
+      -webkit-backdrop-filter: blur(10px) saturate(140%);
+      padding: 8px 12px; cursor: pointer; border-radius: 999px; margin-right: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 600;
+      color: #fff;
+    }
+    .seg button.active { background: rgba(255,255,255,0.2); }
+
+    input[type=number] {
+      width: 84px; padding: 8px 10px; border-radius: 12px; border: 1px solid var(--glass-border);
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(6px) saturate(140%);
+      -webkit-backdrop-filter: blur(6px) saturate(140%);
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
+      font-family: 'Cabinet Grotesk', sans-serif;
+      color: #fff;
+    }
+    .unit { font-size: 12px; opacity: .85; color: #fff; }
+
+    /* Download-style button */
+    .btn {
+      border: 1px solid var(--glass-border);
+      background: rgba(255,255,255,0.15);
+      padding: 8px 14px; border-radius: 999px; cursor: pointer;
+      backdrop-filter: blur(10px) saturate(140%);
+      -webkit-backdrop-filter: blur(10px) saturate(140%);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.6);
+      font-family: 'Cabinet Grotesk', sans-serif;
+      font-weight: 600;
+      color: #fff;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0,0,0,0.8); }
+
+    /* Make lists */
+    .card ul { list-style: none; padding: 0; margin: 0; }
+    .card li { padding: 8px 10px; border-radius: 12px; }
+    .card li:hover { background: rgba(255,255,255,0.1); }
+    .card li span:first-child {
+      font-weight: 700;
+      font-family: 'Cabinet Grotesk', sans-serif;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <section class="hero">
+      <img src="https://i.ibb.co/YFV3pwSy/makzfitlogo.png" alt="MAKZ Logo">
+    </section>
+
+    <nav class="tabs">
+      <button data-tab="shopping" class="active">Shopping List</button>
+      <button data-tab="workouts">Workouts</button>
+      <button data-tab="meals">Meal Prep</button>
+      <button data-tab="overview">Routine Overview</button>
+    </nav>
+
+    <div id="content"></div>
+  </div>
+
+  <script>
+    const STARTER_LIST = [
+      { id: "chicken", name: "Chicken Breast Fillets", qty: 6, unit: "kg", category: "Protein" },
+      { id: "salmon", name: "Boneless Salmon Fillets", qty: 1.2, unit: "kg", category: "Protein" },
+      { id: "eggs", name: "Eggs (12-pack)", qty: 4, unit: "packs", category: "Protein" },
+      { id: "yogurt", name: "Greek Style Yogurt (Full Fat)", qty: 4, unit: "kg", category: "Protein" },
+      { id: "rice", name: "Long Grain White Rice", qty: 2, unit: "kg", category: "Carbohydrates" },
+      { id: "pasta", name: "Fusilli Pasta", qty: 2, unit: "kg", category: "Carbohydrates" },
+      { id: "oats", name: "Porridge Oats", qty: 1, unit: "kg", category: "Carbohydrates" },
+      { id: "white-potatoes", name: "British White Potatoes", qty: 5, unit: "kg", category: "Carbohydrates" },
+      { id: "broccoli", name: "Broccoli", qty: 1.5, unit: "kg", category: "Vegetables & Fruits" },
+      { id: "green-beans", name: "Green Beans", qty: 1, unit: "kg", category: "Vegetables & Fruits" },
+      { id: "mixed-veg", name: "Mixed Vegetables (Frozen)", qty: 2, unit: "kg", category: "Vegetables & Fruits" },
+      { id: "red-potatoes", name: "British Red Potatoes", qty: 2.5, unit: "kg", category: "Vegetables & Fruits" },
+      { id: "peanut-butter", name: "Peanut Butter", qty: 1, unit: "jar", category: "Healthy Fats" },
+      { id: "olive-oil", name: "Extra Virgin Olive Oil", qty: 1, unit: "litre", category: "Healthy Fats" },
+      { id: "salt", name: "Salt", qty: 1, unit: "pack", category: "Miscellaneous" },
+      { id: "pepper", name: "Pepper", qty: 1, unit: "pack", category: "Miscellaneous" }
+    ];
+
+    let state = { tab: 'shopping', view: 'monthly' };
+
+    function getShoppingList(){
+      if(state.view === 'monthly') return STARTER_LIST.map(i=>({...i}));
+      // weekly = monthly / 4
+      return STARTER_LIST.map(i=>{
+        let q = i.qty/4;
+        if(i.unit === 'packs') q = Math.round(q); // packs are integers
+        else q = +(q.toFixed(2));
+        return {...i, qty: q};
+      });
+    }
+
+    function render(){
+      document.querySelectorAll('.tabs button').forEach(b=>{
+        b.classList.toggle('active', b.dataset.tab===state.tab);
+      });
+      const c = document.getElementById('content');
+      c.innerHTML = '';
+      if(state.tab==='shopping') renderShopping(c);
+      if(state.tab==='workouts') renderWorkouts(c);
+      if(state.tab==='meals') renderMeals(c);
+      if(state.tab==='overview') renderOverview(c);
+    }
+
+    function renderShopping(c){
+      const card = document.createElement('div'); card.className='card glass';
+      const toolbar = document.createElement('div'); toolbar.className='row';
+      toolbar.innerHTML = `<div class="seg">
+        <button ${state.view==='monthly'?'class="active"':''} data-v="monthly">Monthly</button>
+        <button ${state.view==='weekly'?'class="active"':''} data-v="weekly">Weekly</button>
+      </div>`;
+      toolbar.querySelectorAll('button[data-v]').forEach(b=> b.onclick=()=>{state.view=b.dataset.v; render();});
+      card.appendChild(toolbar);
+
+      const list = document.createElement('ul');
+      getShoppingList().forEach(item=>{
+        const li=document.createElement('li');
+        li.className='row';
+        li.innerHTML=`<span style="flex:1">${item.name}</span><input type=number value="${item.qty}" step="0.1" /><span class="unit">${item.unit}</span>`;
+        li.querySelector('input').oninput=(e)=>{item.qty=+e.target.value;};
+        list.appendChild(li);
+      });
+      card.appendChild(list);
+      c.appendChild(card);
+    }
+
+    function renderWorkouts(c){
+      const card = document.createElement('div'); card.className='card glass';
+      card.innerHTML = '<h2 style="margin-top:0">Workouts</h2><p>Default schedule shown here (Excel import optional).</p>';
+      c.appendChild(card);
+    }
+
+    function renderMeals(c){
+      const card = document.createElement('div'); card.className='card glass';
+      card.innerHTML = '<h2 style="margin-top:0">Meal Prep & Daily Meals</h2><p>Same meals every day by default.</p>';
+      c.appendChild(card);
+    }
+
+    function renderOverview(c){
+      const card = document.createElement('div'); card.className='card glass';
+      card.innerHTML = '<h2 style="margin-top:0">Routine Overview</h2><p>Timeline of hydration, meals, workout, bedtime...</p>';
+      c.appendChild(card);
+    }
+
+    document.querySelectorAll('.tabs button').forEach(b=> b.onclick=()=>{state.tab=b.dataset.tab; render();});
+    render();
+  </script>
+</body>
+</html>
