@@ -6,167 +6,161 @@
   <title>Makz Fit Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    /* ===== Base ===== */
     :root {
-      --glass-bg: rgba(0, 0, 0, 0.4);
-      --glass-border: rgba(255, 255, 255, 0.2);
-      --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+      --glass-bg: rgba(0, 0, 0, 0.50);
+      --glass-border: rgba(255, 255, 255, 0.20);
+      --glass-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
       --radius: 16px;
+      --glow: 0 0 0 2px rgba(255,255,255,0.35), 0 0 22px rgba(114, 137, 218, 0.6);
+      --chip: rgba(255,255,255,.16);
     }
     html, body { height: 100%; }
-    body { 
-      margin: 0; 
-      font-family: 'Cabinet Grotesk', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji", "Segoe UI Emoji"; 
-      color: #fff; 
-      background: url('https://i.ibb.co/XffVNf0M/vivid-blurred-colorful-background.jpg') no-repeat center center fixed; 
+    body {
+      margin: 0;
+      font-family: 'Cabinet Grotesk', ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial;
+      color: #fff;
+      background: url('https://i.ibb.co/XffVNf0M/vivid-blurred-colorful-background.jpg') no-repeat center center fixed;
       background-size: cover;
       text-align: center;
     }
 
-    /* ===== Utilities ===== */
-    .glass {
-      position: relative;
-      background: var(--glass-bg);
-      border: 1px solid var(--glass-border);
-      backdrop-filter: blur(14px) saturate(140%);
-      -webkit-backdrop-filter: blur(14px) saturate(140%);
-      border-radius: var(--radius);
-      box-shadow: var(--glass-shadow);
-      overflow: hidden;
-    }
-
-    /* ===== Layout ===== */
-    .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 28px 24px 48px; }
+    .glass { background: var(--glass-bg); border: 1px solid var(--glass-border); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); border-radius: var(--radius); box-shadow: var(--glass-shadow); padding: 16px; margin-bottom: 20px; text-align: left; }
 
     /* Header */
-    .hero { padding: 18px; margin-bottom: 18px; }
-    .hero img { max-width: 220px; margin-bottom: 16px; }
-    .hero h1 { margin: 0 0 6px 0; font-size: 28px; letter-spacing: -0.02em; color: #fff; }
-    .hero p { margin: 0; opacity: .9; color: #fff; }
+    .hero img { width: 200px; aspect-ratio: auto; margin-bottom: 16px; }
 
     /* Tabs */
-    .tabs { display: flex; justify-content: center; gap: 10px; margin: 16px 0 20px; flex-wrap: wrap; }
-    .tabs button {
-      padding: 10px 14px; border-radius: 999px; cursor: pointer; border: 1px solid var(--glass-border);
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px) saturate(140%);
-      -webkit-backdrop-filter: blur(10px) saturate(140%);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-      color: #fff;
-      transition: transform .12s ease, box-shadow .12s ease, background .2s ease;
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-weight: 600;
-    }
-    .tabs button:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(0,0,0,0.6); }
-    .tabs button.active { background: rgba(255,255,255,0.2); }
+    .tabs { display: flex; justify-content: center; gap: 12px; margin: 16px 0 20px; flex-wrap: wrap; }
+    .tabs button { padding: 10px 16px; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--chip); color: #fff; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,.35);} 
+    .tabs button.active { background: rgba(255,255,255,.28); }
 
-    /* Cards */
-    .card { padding: 16px; margin-bottom: 20px; color: #fff; text-align: left; }
+    /* Layout helpers */
+    .row { display: flex; align-items: center; gap: 10px; }
+    .grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 860px) { .grid { grid-template-columns: 1fr 1fr; } }
+    .top-spaced { margin-top: 14px; }
 
-    /* Controls */
-    .row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
-    .seg { display: inline-flex; border-radius: 999px; overflow: hidden; }
-    .seg button {
-      border: 1px solid var(--glass-border);
-      background: var(--glass-bg);
-      backdrop-filter: blur(10px) saturate(140%);
-      -webkit-backdrop-filter: blur(10px) saturate(140%);
-      padding: 8px 12px; cursor: pointer; border-radius: 999px; margin-right: 8px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-weight: 600;
-      color: #fff;
-    }
-    .seg button.active { background: rgba(255,255,255,0.2); }
-
-    input[type=number] {
-      width: 84px; padding: 8px 10px; border-radius: 12px; border: 1px solid var(--glass-border);
-      background: rgba(0,0,0,0.6); backdrop-filter: blur(6px) saturate(140%);
-      -webkit-backdrop-filter: blur(6px) saturate(140%);
-      box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
-      font-family: 'Cabinet Grotesk', sans-serif;
-      color: #fff;
-    }
-    .unit { font-size: 12px; opacity: .85; color: #fff; }
-
-    /* Download-style button */
-    .btn {
-      border: 1px solid var(--glass-border);
-      background: rgba(255,255,255,0.15);
-      padding: 8px 14px; border-radius: 999px; cursor: pointer;
-      backdrop-filter: blur(10px) saturate(140%);
-      -webkit-backdrop-filter: blur(10px) saturate(140%);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.6);
-      font-family: 'Cabinet Grotesk', sans-serif;
-      font-weight: 600;
-      color: #fff;
-    }
-    .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0,0,0,0.8); }
-
-    /* Make lists */
+    /* Shopping list */
+    .card h3 { margin: 0 0 10px; }
     .card ul { list-style: none; padding: 0; margin: 0; }
-    .card li { padding: 8px 10px; border-radius: 12px; }
-    .card li:hover { background: rgba(255,255,255,0.1); }
-    .card li span:first-child {
-      font-weight: 700;
-      font-family: 'Cabinet Grotesk', sans-serif;
-      color: #fff;
-    }
+    .card li { display:flex; align-items:center; gap:10px; margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 8px; }
+    .card li span:first-child { font-weight: 700; }
+    .seg { display: inline-flex; gap: 8px; }
+    .seg button { padding: 8px 12px; border-radius: 999px; border: 1px solid var(--glass-border); background: var(--chip); color: #fff; cursor: pointer; font-weight: 700; }
+    .seg button.active { background: rgba(255,255,255,.28); }
+    .btn { padding: 8px 14px; border-radius: 999px; border: 1px solid var(--glass-border); background: rgba(255,255,255,0.18); color:#fff; cursor: pointer; font-weight: 700; }
+    input[type=number]{ width: 96px; padding: 9px 10px; border-radius: 12px; border: 1px solid var(--glass-border); background: rgba(0,0,0,0.65); color: #fff; box-shadow: inset 0 1px 2px rgba(0,0,0,.6); }
+    input[type=number]:focus{ outline: 2px solid rgba(255,255,255,.35); }
+    .unit { font-size: 12px; opacity: .9; }
+
+    /* Day grids (Workouts / Meals / Overview) */
+    .day-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    @media (min-width: 640px){ .day-grid { grid-template-columns: 1fr 1fr; } }
+    @media (min-width: 1060px){ .day-grid { grid-template-columns: 1fr 1fr 1fr; } }
+    .day-card { padding: 16px; border-radius: var(--radius); background: var(--glass-bg); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); text-align: left; }
+    .day-card h3 { margin: 0 0 8px; }
+    .day-card p { margin: 6px 0; line-height: 1.35; }
+    .day-card ul { list-style: disc; padding-left: 18px; margin: 8px 0 0; }
+    .day-card li { margin-bottom: 8px; }
+    .glow-today { box-shadow: var(--glow); }
+
+    /* badges */
+    .badge { display:inline-block; padding:4px 8px; border-radius:999px; background: var(--chip); border:1px solid var(--glass-border); font-size:12px; font-weight:700; }
+
+    .muted { opacity: .8; }
+    footer { margin-top: 28px; opacity: .8; text-align:center; font-size: 12px; }
   </style>
 </head>
 <body>
   <div class="container">
-    <section class="hero">
-      <img src="https://i.ibb.co/YFV3pwSy/makzfitlogo.png" alt="MAKZ Logo">
-    </section>
-
-    <nav class="tabs">
+    <div class="hero">
+      <img src="https://i.ibb.co/YFV3pwSy/makzfitlogo.png" alt="MAKZ logo" />
+    </div>
+    <div class="tabs" id="tabs">
       <button data-tab="shopping" class="active">Shopping List</button>
       <button data-tab="workouts">Workouts</button>
       <button data-tab="meals">Meal Prep</button>
       <button data-tab="overview">Routine Overview</button>
-    </nav>
+    </div>
 
     <div id="content"></div>
+
+    <footer>Sunday is dedicated to <b>Meal Prep + Active Recovery</b>.</footer>
   </div>
 
   <script>
+    // ---------- STATE ----------
+    const state = { tab: 'shopping', view: 'monthly' };
+
+    // ---------- DATA ----------
     const STARTER_LIST = [
-      { id: "chicken", name: "Chicken Breast Fillets", qty: 6, unit: "kg", category: "Protein" },
-      { id: "salmon", name: "Boneless Salmon Fillets", qty: 1.2, unit: "kg", category: "Protein" },
-      { id: "eggs", name: "Eggs (12-pack)", qty: 4, unit: "packs", category: "Protein" },
-      { id: "yogurt", name: "Greek Style Yogurt (Full Fat)", qty: 4, unit: "kg", category: "Protein" },
-      { id: "rice", name: "Long Grain White Rice", qty: 2, unit: "kg", category: "Carbohydrates" },
-      { id: "pasta", name: "Fusilli Pasta", qty: 2, unit: "kg", category: "Carbohydrates" },
-      { id: "oats", name: "Porridge Oats", qty: 1, unit: "kg", category: "Carbohydrates" },
-      { id: "white-potatoes", name: "British White Potatoes", qty: 5, unit: "kg", category: "Carbohydrates" },
-      { id: "broccoli", name: "Broccoli", qty: 1.5, unit: "kg", category: "Vegetables & Fruits" },
-      { id: "green-beans", name: "Green Beans", qty: 1, unit: "kg", category: "Vegetables & Fruits" },
-      { id: "mixed-veg", name: "Mixed Vegetables (Frozen)", qty: 2, unit: "kg", category: "Vegetables & Fruits" },
-      { id: "red-potatoes", name: "British Red Potatoes", qty: 2.5, unit: "kg", category: "Vegetables & Fruits" },
-      { id: "peanut-butter", name: "Peanut Butter", qty: 1, unit: "jar", category: "Healthy Fats" },
-      { id: "olive-oil", name: "Extra Virgin Olive Oil", qty: 1, unit: "litre", category: "Healthy Fats" },
-      { id: "salt", name: "Salt", qty: 1, unit: "pack", category: "Miscellaneous" },
-      { id: "pepper", name: "Pepper", qty: 1, unit: "pack", category: "Miscellaneous" }
+      { id: 'chicken', name: 'Chicken Breast Fillets', qty: 6, unit: 'kg', category: 'Protein' },
+      { id: 'salmon', name: 'Boneless Salmon Fillets', qty: 1.2, unit: 'kg', category: 'Protein' },
+      { id: 'eggs', name: 'Eggs (12-pack)', qty: 4, unit: 'packs', category: 'Protein' },
+      { id: 'yogurt', name: 'Greek Style Yogurt (Full Fat)', qty: 4, unit: 'kg', category: 'Protein' },
+      { id: 'rice', name: 'Long Grain White Rice', qty: 2, unit: 'kg', category: 'Carbohydrates' },
+      { id: 'pasta', name: 'Fusilli Pasta', qty: 2, unit: 'kg', category: 'Carbohydrates' },
+      { id: 'oats', name: 'Porridge Oats', qty: 1, unit: 'kg', category: 'Carbohydrates' },
+      { id: 'white-potatoes', name: 'British White Potatoes', qty: 5, unit: 'kg', category: 'Carbohydrates' },
+      { id: 'broccoli', name: 'Broccoli', qty: 1.5, unit: 'kg', category: 'Vegetables & Fruits' },
+      { id: 'green-beans', name: 'Green Beans', qty: 1, unit: 'kg', category: 'Vegetables & Fruits' },
+      { id: 'mixed-veg', name: 'Mixed Vegetables (Frozen)', qty: 2, unit: 'kg', category: 'Vegetables & Fruits' },
+      { id: 'red-potatoes', name: 'British Red Potatoes', qty: 2.5, unit: 'kg', category: 'Vegetables & Fruits' },
+      { id: 'peanut-butter', name: 'Peanut Butter', qty: 1, unit: 'jar', category: 'Healthy Fats' },
+      { id: 'olive-oil', name: 'Extra Virgin Olive Oil', qty: 1, unit: 'litre', category: 'Healthy Fats' },
+      { id: 'salt', name: 'Salt', qty: 1, unit: 'pack', category: 'Miscellaneous' },
+      { id: 'pepper', name: 'Pepper', qty: 1, unit: 'pack', category: 'Miscellaneous' }
     ];
 
-    let state = { tab: 'shopping', view: 'monthly' };
+    function loadMonthly(){ try{ const raw = localStorage.getItem('makz-monthly'); if(raw) return JSON.parse(raw);}catch(e){} return STARTER_LIST.map(i=>({...i})); }
+    function saveMonthly(list){ try{ localStorage.setItem('makz-monthly', JSON.stringify(list)); }catch(e){} }
 
-    function getShoppingList(){
-      if(state.view === 'monthly') return STARTER_LIST.map(i=>({...i}));
-      // weekly = monthly / 4
-      return STARTER_LIST.map(i=>{
-        let q = i.qty/4;
-        if(i.unit === 'packs') q = Math.round(q); // packs are integers
-        else q = +(q.toFixed(2));
-        return {...i, qty: q};
-      });
+    let monthlyList = loadMonthly();
+    function weeklyFrom(list){ return list.map(i=>({ ...i, qty: i.unit==='packs' ? Math.max(1, Math.round(i.qty/4)) : +(i.qty/4).toFixed(2) })); }
+    function currentList(){ return state.view==='weekly' ? weeklyFrom(monthlyList) : monthlyList.map(i=>({...i})); }
+
+    // Workouts / Meals / Schedule
+    const WORKOUTS = {
+      Monday: "Push workout @ 7:00–8:15am: Bench Press 4x6-8; Overhead Press 3x8-10; Raises 3x12-15; Dips 3x8-10; Triceps Pushdowns 3x12-15",
+      Tuesday: "Pull workout @ 7:00–8:15am: Deadlift 4x5-6; Pull-Ups 4x6-10; Seated Row 3x8-10; Face Pulls 3x12-15; Bicep Curls 3x10-12",
+      Wednesday: "Legs workout @ 7:00–8:15am: Back Squat 4x5-8; Leg Press 3x10-12; Hamstring Curls 3x10-12; Calf Raises 3x12-15; Walking Lunges 3x10-12",
+      Thursday: "Full Body Workout @ 7:00–8:15am: Front Squat 3x8-10; Bench Press 3x8-10; Bent Over Row 3x8-10; Overhead Press 3x8-10; Romanian Deadlift 3x8-10",
+      Friday: "Push workout @ 7:00–8:15am: Incline Bench Press 4x6-8; Weighted Dips 3x8-10; Dumbbell Shoulder Press 3x8-10; Lateral Raises 3x12-15; Tricep Overhead Extensions 3x10-12",
+      Saturday: "Full Body Workout @ 7:00–8:15am: Front Squat 3x8-10; Bench Press 3x8-10; Bent Over Row 3x8-10; Overhead Press 3x8-10; Romanian Deadlift 3x8-10",
+      Sunday: "Active Recovery @ 7:00–8:15am: walk; stretch; yoga"
+    };
+
+    const MEALS = {
+      Monday: ["Breakfast (8:15am): Oats Shake - 100g oats, 250ml milk, whey, banana, peanut butter", "Meal #1 (11:00am): 150g chicken, 150g rice, olive oil, broccoli", "Meal #2 (2:00pm): Greek yogurt, granola, almonds, honey", "Dinner (5:30pm): 200g salmon, 200g potatoes, butter, lettuce", "Snack (9:15pm): Protein shake, banana, peanut butter"],
+      Tuesday: ["Breakfast (8:15am): Oats Shake", "Meal #1 (11:00am): Chicken + rice", "Meal #2 (2:00pm): Yogurt + granola", "Dinner (5:30pm): Beef mince + rice + veg", "Snack (9:15pm): Shake"],
+      Wednesday: ["Breakfast (8:15am): Oats Shake", "Meal #1 (11:00am): Chicken + rice", "Meal #2 (2:00pm): Yogurt + granola", "Dinner (5:30pm): Chicken + pasta + pesto", "Snack (9:15pm): Shake"],
+      Thursday: ["Breakfast (8:15am): Oats Shake", "Meal #1 (1:30pm): Chicken + pasta + pesto", "Dinner (5:30pm): Beef mince + rice + veg", "Snack (9:15pm): Shake"],
+      Friday: ["Breakfast (8:15am): Oats Shake", "Meal #1 (11:00am): Chicken + rice", "Meal #2 (2:00pm): Yogurt + granola", "Dinner (5:30pm): Salmon + potatoes + lettuce", "Snack (9:15pm): Shake"],
+      Saturday: ["Breakfast (8:15am): Oats Shake", "Meal #1 (1:30pm): Chicken + pasta + pesto", "Dinner (5:30pm): Beef mince + rice + veg", "Snack (9:15pm): Shake"],
+      Sunday: ["Breakfast (9:30am): Eggs, toast, avocado, apple", "Meal #1 (1:30pm): Salmon + potatoes + broccoli", "Meal Prep (3–5pm)", "Dinner (5:30pm): Chicken curry + rice + veg", "Snack (9:15pm): Yogurt + berries + granola"]
+    };
+
+    const SCHEDULE = {
+      Monday: ["6:30am: Wake up + hydration", "7:00am: Push workout", "8:15am: Breakfast", "11:00am: Meal #1", "2:00pm: Meal #2", "5:30pm: Dinner", "7:00pm: Editing", "9:15pm: Snack", "10:30pm: Bedtime"],
+      Tuesday: ["6:30am: Wake up", "7:00am: Pull workout", "8:15am: Breakfast", "11:00am: Meal #1", "2:00pm: Meal #2", "5:30pm: Dinner", "7:00pm: Networking", "9:15pm: Snack", "10:30pm: Bedtime"],
+      Wednesday: ["6:30am: Wake up", "7:00am: Legs workout", "8:15am: Breakfast", "11:00am: Meal #1", "2:00pm: Meal #2", "5:30pm: Dinner", "7:00pm: Research", "9:15pm: Snack", "10:30pm: Bedtime"],
+      Thursday: ["6:30am: Wake up", "7:00am: Full Body workout", "8:15am: Breakfast", "11:00am: Content Creation", "1:30pm: Meal #1", "5:30pm: Dinner", "7:00pm: Networking", "9:15pm: Snack", "10:30pm: Bedtime"],
+      Friday: ["6:30am: Wake up", "7:00am: Push workout", "8:15am: Breakfast", "11:00am: Meal #1", "2:00pm: Meal #2", "5:30pm: Dinner", "7:00pm: Editing", "9:15pm: Snack", "10:30pm: Bedtime"],
+      Saturday: ["6:30am: Wake up", "7:00am: Full Body workout", "8:15am: Breakfast", "11:00am: Content Creation", "1:30pm: Meal #1", "5:30pm: Dinner", "7:00pm: Networking", "9:15pm: Snack", "10:30pm: Bedtime"],
+      Sunday: ["6:30am: Wake up", "7:00am: Active Recovery", "9:30am: Breakfast", "11:00am: Content Strategy", "1:30pm: Meal #1", "3:00pm: Meal Prep", "5:30pm: Dinner", "7:00pm: Social Media", "9:15pm: Snack", "10:30pm: Bedtime"]
+    };
+
+    // ---------- UTIL ----------
+    function getTodayName(daysArr){
+      // map JS Sunday(0)..Saturday(6) -> Monday..Sunday
+      const d = new Date().getDay();
+      return daysArr[ d === 0 ? daysArr.length - 1 : d - 1 ];
     }
 
+    // ---------- RENDERING ----------
     function render(){
-      document.querySelectorAll('.tabs button').forEach(b=>{
-        b.classList.toggle('active', b.dataset.tab===state.tab);
-      });
+      document.querySelectorAll('#tabs button').forEach(b=> b.classList.toggle('active', b.dataset.tab===state.tab));
       const c = document.getElementById('content');
       c.innerHTML = '';
       if(state.tab==='shopping') renderShopping(c);
@@ -175,48 +169,177 @@
       if(state.tab==='overview') renderOverview(c);
     }
 
-    function renderShopping(c){
-      const card = document.createElement('div'); card.className='card glass';
-      const toolbar = document.createElement('div'); toolbar.className='row';
-      toolbar.innerHTML = `<div class="seg">
-        <button ${state.view==='monthly'?'class="active"':''} data-v="monthly">Monthly</button>
-        <button ${state.view==='weekly'?'class="active"':''} data-v="weekly">Weekly</button>
-      </div>`;
-      toolbar.querySelectorAll('button[data-v]').forEach(b=> b.onclick=()=>{state.view=b.dataset.v; render();});
-      card.appendChild(toolbar);
+    function renderShopping(container){
+      const wrapper = document.createElement('div');
+      wrapper.className = 'glass card';
 
-      const list = document.createElement('ul');
-      getShoppingList().forEach(item=>{
-        const li=document.createElement('li');
-        li.className='row';
-        li.innerHTML=`<span style="flex:1">${item.name}</span><input type=number value="${item.qty}" step="0.1" /><span class="unit">${item.unit}</span>`;
-        li.querySelector('input').oninput=(e)=>{item.qty=+e.target.value;};
-        list.appendChild(li);
+      const header = document.createElement('div');
+      header.className = 'row';
+      header.style.justifyContent = 'space-between';
+      header.style.flexWrap = 'wrap';
+      header.innerHTML = `
+        <div class="seg">
+          <button ${state.view==='monthly' ? 'class="active"' : ''} data-v="monthly">Monthly</button>
+          <button ${state.view==='weekly' ? 'class="active"' : ''} data-v="weekly">Weekly</button>
+        </div>
+        <div class="row" style="gap:8px">
+          <button class="btn" id="reset">Reset to Defaults</button>
+        </div>`;
+
+      header.querySelectorAll('button[data-v]').forEach(btn => {
+        btn.addEventListener('click', () => { state.view = btn.dataset.v; render(); });
       });
-      card.appendChild(list);
-      c.appendChild(card);
+      header.querySelector('#reset').addEventListener('click', () => { monthlyList = STARTER_LIST.map(i=>({...i})); saveMonthly(monthlyList); render(); });
+      wrapper.appendChild(header);
+
+      // group by category
+      const byCat = {}; currentList().forEach(i => { (byCat[i.category] ||= []).push(i); });
+
+      const grid = document.createElement('div'); grid.className = 'grid top-spaced';
+      Object.entries(byCat).forEach(([cat, items]) => {
+        const card = document.createElement('div'); card.className = 'glass card';
+        const title = document.createElement('h3'); title.textContent = cat; title.style.marginTop = '0'; card.appendChild(title);
+        const ul = document.createElement('ul');
+        items.forEach(item => {
+          const li = document.createElement('li');
+          li.innerHTML = `<span style="flex:1">${item.name}</span>
+            <input type="number" step="0.1" value="${item.qty}">
+            <span class="unit">${item.unit}</span>`;
+          const input = li.querySelector('input');
+          input.addEventListener('input', e => {
+            const v = Number(e.target.value);
+            const idx = monthlyList.findIndex(x => x.id === item.id);
+            if (idx > -1) {
+              if (state.view === 'weekly') {
+                const newMonthly = (monthlyList[idx].unit === 'packs') ? Math.max(1, Math.round(v * 4)) : +(v * 4).toFixed(2);
+                monthlyList[idx] = { ...monthlyList[idx], qty: newMonthly };
+              } else {
+                monthlyList[idx] = { ...monthlyList[idx], qty: v };
+              }
+              saveMonthly(monthlyList);
+            }
+          });
+          ul.appendChild(li);
+        });
+        card.appendChild(ul);
+        grid.appendChild(card);
+      });
+      wrapper.appendChild(grid);
+      container.appendChild(wrapper);
+
+      const hint = document.createElement('p');
+      hint.className = 'muted';
+      hint.textContent = 'Tip: In Weekly view, editing a number updates the monthly baseline (×4).';
+      container.appendChild(hint);
     }
 
-    function renderWorkouts(c){
-      const card = document.createElement('div'); card.className='card glass';
-      card.innerHTML = '<h2 style="margin-top:0">Workouts</h2><p>Default schedule shown here (Excel import optional).</p>';
-      c.appendChild(card);
+    function renderWorkouts(container){
+      const section = document.createElement('div'); section.className = 'glass';
+      const h2 = document.createElement('h2'); h2.textContent = 'Workouts'; section.appendChild(h2);
+      const grid = document.createElement('div'); grid.className = 'day-grid top-spaced';
+      const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+      const today = getTodayName(days);
+
+      function parseWorkout(str){
+        const parts = String(str || '').split(':');
+        const left = parts.shift() || '';
+        const right = parts.join(':');
+        const items = right ? right.split(';').map(function(s){return s.trim();}).filter(Boolean) : [];
+        var type = '', time = '';
+        var atIdx = left.indexOf('@');
+        if(atIdx !== -1){
+          type = left.slice(0, atIdx).trim();
+          time = left.slice(atIdx+1).trim();
+        } else {
+          type = left.trim();
+        }
+        return { type: type, time: time, items: items };
+      }
+
+      days.forEach(function(day){
+        const dc = document.createElement('div'); dc.className = 'day-card' + (day===today ? ' glow-today' : '');
+        const h3 = document.createElement('h3'); h3.textContent = day; dc.appendChild(h3);
+
+        const data = parseWorkout(WORKOUTS[day]);
+        if(data.type){
+          const line = document.createElement('p');
+          var cleanType = data.type.toLowerCase().replace(' workout','');
+          cleanType = cleanType.charAt(0).toUpperCase() + cleanType.slice(1);
+          line.innerHTML = '<span class="badge">' + cleanType + '</span>' + (data.time? ' <span class="badge">' + data.time + '</span>' : '');
+          dc.appendChild(line);
+        }
+        if(data.items && data.items.length){
+          const ul = document.createElement('ul');
+          data.items.forEach(function(m){ const li=document.createElement('li'); li.textContent = m; ul.appendChild(li); });
+          dc.appendChild(ul);
+        }
+        grid.appendChild(dc);
+      });
+      section.appendChild(grid);
+      container.appendChild(section);
     }
 
-    function renderMeals(c){
-      const card = document.createElement('div'); card.className='card glass';
-      card.innerHTML = '<h2 style="margin-top:0">Meal Prep & Daily Meals</h2><p>Same meals every day by default.</p>';
-      c.appendChild(card);
+    function renderMeals(container){
+      const section = document.createElement('div'); section.className = 'glass';
+      const h2 = document.createElement('h2'); h2.textContent = 'Meals'; section.appendChild(h2);
+      const grid = document.createElement('div'); grid.className = 'day-grid top-spaced';
+      const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+      const today = getTodayName(days);
+      days.forEach(function(day){
+        const dc = document.createElement('div'); dc.className = 'day-card' + (day===today ? ' glow-today' : '');
+        const h3 = document.createElement('h3'); h3.textContent = day; dc.appendChild(h3);
+        const ul = document.createElement('ul');
+        (MEALS[day] || []).forEach(function(m){ const li = document.createElement('li'); li.textContent = m; ul.appendChild(li); });
+        dc.appendChild(ul);
+        grid.appendChild(dc);
+      });
+      section.appendChild(grid);
+      container.appendChild(section);
     }
 
-    function renderOverview(c){
-      const card = document.createElement('div'); card.className='card glass';
-      card.innerHTML = '<h2 style="margin-top:0">Routine Overview</h2><p>Timeline of hydration, meals, workout, bedtime...</p>';
-      c.appendChild(card);
+    function renderOverview(container){
+      const section = document.createElement('div'); section.className = 'glass';
+      const h2 = document.createElement('h2'); h2.textContent = 'Day Schedule'; section.appendChild(h2);
+      const grid = document.createElement('div'); grid.className = 'day-grid top-spaced';
+      const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+      const today = getTodayName(days);
+      days.forEach(function(day){
+        const dc = document.createElement('div'); dc.className = 'day-card' + (day===today ? ' glow-today' : '');
+        const h3 = document.createElement('h3'); h3.textContent = day; dc.appendChild(h3);
+        const ul = document.createElement('ul');
+        (SCHEDULE[day] || []).forEach(function(s){ const li = document.createElement('li'); li.textContent = s; ul.appendChild(li); });
+        dc.appendChild(ul);
+        grid.appendChild(dc);
+      });
+      section.appendChild(grid);
+      container.appendChild(section);
     }
 
-    document.querySelectorAll('.tabs button').forEach(b=> b.onclick=()=>{state.tab=b.dataset.tab; render();});
+    // ---------- EVENTS ----------
+    document.querySelectorAll('#tabs button').forEach(function(btn){
+      btn.addEventListener('click', function(){ state.tab = btn.dataset.tab; render(); });
+    });
+
+    // ---------- TESTS (console only) ----------
+    (function tests(){
+      try {
+        const w = weeklyFrom(STARTER_LIST);
+        const chicken = w.find(x=>x.id==='chicken').qty; console.assert(chicken===1.5, 'Weekly chicken should be 1.5');
+        const eggs = w.find(x=>x.id==='eggs').qty; console.assert(Number.isInteger(eggs) && eggs>=1, 'Egg packs round to whole >=1');
+        const riceW = w.find(x=>x.id==='rice').qty; console.assert(riceW === 0.5, 'Weekly rice should be 0.5kg');
+        console.assert(Array.isArray(SCHEDULE.Sunday) && SCHEDULE.Sunday.some(x=>x.includes('Meal Prep')), 'Sunday meal prep missing');
+
+        // extra: ensure parser splits into at least 5 movements on Monday
+        const sample = WORKOUTS.Monday; 
+        const parts = String(sample).split(':');
+        const items = (parts[1] || '').split(';').filter(Boolean);
+        console.assert(items.length >= 5, 'Workout parsing should produce 5+ items for Monday');
+      } catch(e){ console.warn('tests failed', e); }
+    })();
+
+    // ---------- INIT ----------
     render();
   </script>
 </body>
 </html>
+
